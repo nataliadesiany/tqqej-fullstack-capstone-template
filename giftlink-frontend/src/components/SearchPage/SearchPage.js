@@ -1,17 +1,21 @@
+//Task 1: Define state variables for the search query, age range, and search results.
+// Task 2. Fetch search results from the API based on user inputs.
+// Task 6. Enable navigation to the details page of a selected gift.
+/* Task 7: Add text input field for search criteria*/
+/* Task 8: Implement search button with onClick event to trigger search:*/
+/*Task 5: Display search results and handle empty results with a message. */
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {urlConfig} from '../../config';
-import './SearchPage.css';
 
 function SearchPage() {
-
-    //Task 1: Define state variables for the search query, age range, and search results.
-    const categories = ['Living', 'Bedroom', 'Bathroom', 'Kitchen', 'Office'];
-    const conditions = ['New', 'Like New', 'Older'];
     const [searchQuery, setSearchQuery] = useState('');
     const [ageRange, setAgeRange] = useState(6); // Initialize with minimum value
     const [searchResults, setSearchResults] = useState([]);
+    const categories = ['Living', 'Bedroom', 'Bathroom', 'Kitchen', 'Office'];
+    const conditions = ['New', 'Like New', 'Older'];
 
     useEffect(() => {
         // fetch all products
@@ -35,7 +39,6 @@ function SearchPage() {
     }, []);
 
 
-    // Task 2. Fetch search results from the API based on user inputs.
     const handleSearch = async () => {
         // Construct the search URL based on user input
         const baseUrl = `${urlConfig.backendUrl}/api/search?`;
@@ -61,12 +64,8 @@ function SearchPage() {
     const navigate = useNavigate();
 
     const goToDetailsPage = (productId) => {
-        // Task 6. Enable navigation to the details page of a selected gift.
         navigate(`/app/product/${productId}`);
     };
-
-
-
 
     return (
         <div className="container mt-5">
@@ -75,7 +74,6 @@ function SearchPage() {
                     <div className="filter-section mb-3 p-3 border rounded">
                         <h5>Filters</h5>
                         <div className="d-flex flex-column">
-                            {/* Task 3: Dynamically generate category and condition dropdown options.*/}
                             {/* Category Dropdown */}
                             <label htmlFor="categorySelect">Category</label>
                             <select id="categorySelect" className="form-control my-1">
@@ -93,7 +91,7 @@ function SearchPage() {
                                     <option key={condition} value={condition}>{condition}</option>
                                 ))}
                             </select>
-                            {/* Task 4: Implement an age range slider and display the selected value. */}
+
                             {/* Age Range Slider */}
                             <label htmlFor="ageRange">Less than {ageRange} years</label>
                             <input
@@ -107,28 +105,15 @@ function SearchPage() {
                             />
                         </div>
                     </div>
-                    {/* Task 7: Add text input field for search criteria*/}
-                    <div className="search-input mb-3">
-                        <label htmlFor="searchQuery"></label>
-                        <input
-                            type="text"
-                            id="searchQuery"
-                            className="form-control"
-                            placeholder="Search for items..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                    {/* Task 8: Implement search button with onClick event to trigger search:*/}
-                    <div className="d-grid">
-                        <button
-                            className="custom-search-button"
-                            onClick={handleSearch}
-                        >
-                            Search
-                        </button>
-                    </div>
-                    {/*Task 5: Display search results and handle empty results with a message. */}
+
+                    <input
+                        type="text"
+                        className="form-control mb-2"
+                        placeholder="Search for items..."
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                    />
+                    <button className="btn btn-primary" onClick={handleSearch}>Search</button>
                     <div className="search-results mt-4">
                         {searchResults.length > 0 ? (
                             searchResults.map(product => (
